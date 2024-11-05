@@ -1,22 +1,37 @@
+// task-list.component.ts
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../task.service';
+import { Task } from '../models/Task.interface';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-jg-task-list',
+  selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
-  projectId: string = '';
-  tasks = [
-    { _id: '1', title: 'Task 1', description: 'Task description 1', dueDate: '2024-12-02', status: 'new', project: '1' },
-    // Otras tareas
-  ];
+  tasks: Task[] = [];
+  projectId: any;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private taskService: TaskService, private route: ActivatedRoute) {
+    this.projectId = this.route.snapshot.params['projectId'];
+  }
 
   ngOnInit() {
-    this.projectId = this.route.snapshot.paramMap.get('projectId') || '';
-    this.tasks = this.tasks.filter(task => task.project === this.projectId);
+    this.loadTasks();
+  }
+
+  
+
+  loadTasks() {
+    this.taskService.getTasks(Number(this.projectId))
+      .subscribe(
+        (tasks) => {
+          this.tasks = tasks;
+        },
+        (error) => {
+          console.error('Error al cargar las tareas:', error);
+        }
+      );
   }
 }

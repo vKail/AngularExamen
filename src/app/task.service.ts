@@ -8,16 +8,12 @@ import { Task } from './models/Task.interface';
 export class TaskService {
   constructor(private http: HttpClient) {}
 
-  getTasks(projectId: string) {
+  getTasks(projectId: number) {
     return this.http.get<Task[]>(`/api/projects/${projectId}/tasks`);
   }
 
-  createTask(projectId: string, task: Task) {
+  createTask(projectId: number, task: Task) {
     return this.http.post<Task>(`/api/projects/${projectId}/tasks`, task);
-  }
-
-  updateTask(projectId: string, taskId: string, updates: Partial<Task>) {
-    return this.http.patch<Task>(`/api/projects/${projectId}/tasks/${taskId}`, updates);
   }
 
   deleteTask(projectId: string, taskId: string) {

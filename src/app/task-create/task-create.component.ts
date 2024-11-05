@@ -1,6 +1,8 @@
 // task-create.component.ts
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { TaskService } from '../task.service';
+import { Task } from '../models/Task.interface';
 
 @Component({
   selector: 'app-task-create',
@@ -8,19 +10,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./task-create.component.css']
 })
 export class TaskCreateComponent {
-  task = {
+  task: Task = {
     title: '',
     description: '',
     dueDate: '',
     status: 'new',
-    project: '',  // Este debería estar vinculado a un proyecto específico
+    project_id: 0
   };
 
-  constructor(private router: Router) {}
+  projectId: string;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private taskService: TaskService
+  ) {
+    // Obtener el projectId de la URL
+    this.projectId = this.route.snapshot.params['projectId'];
+  }
 
   saveTask() {
-    // Aquí guardarías la tarea llamando a un servicio
-    console.log('Tarea guardada:', this.task);
-    this.router.navigate(['/tasks', this.task.project]);
+    this.taskService.createTask( Number(this.projectId), this.task)
+      .subscribe(
+        (newTask) => {
+          console.log('Tarea guardada:', newTask);
+          this.router.navigate(['/tasks', this.task.project_id]);
+        },
+        (error) => {
+          console.error('Error al guardar la tarea:', error);
+        }
+      );
   }
 }

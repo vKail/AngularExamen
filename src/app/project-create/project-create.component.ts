@@ -1,25 +1,37 @@
 // project-create.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProjectService } from '../project.service';
+import { Project } from '../models/Project.interface';
 
 @Component({
   selector: 'app-project-create',
   templateUrl: './project-create.component.html',
-  styleUrls: ['./project-create.component.css'],
+  styleUrls: ['./project-create.component.css']
 })
 export class ProjectCreateComponent {
-  project = {
+  project: Project = {
     name: '',
     description: '',
     dueDate: '',
     status: 'new',
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private projectService: ProjectService
+  ) {}
 
   saveProject() {
-    // Aquí guardarías el proyecto llamando a un servicio
-    console.log('Proyecto guardado:', this.project);
-    this.router.navigate(['/projects']);
+    this.projectService.createProject(this.project)
+      .subscribe(
+        (newProject) => {
+          console.log('Proyecto guardado:', newProject);
+          this.router.navigate(['/projects']);
+        },
+        (error) => {
+          console.error('Error al guardar el proyecto:', error);
+        }
+      );
   }
 }
