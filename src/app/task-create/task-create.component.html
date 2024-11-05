@@ -1,0 +1,22 @@
+<!-- task-create.component.html -->
+<form (ngSubmit)="saveTask()">
+    <label for="title">Título</label>
+    <input type="text" id="title" name="title" [(ngModel)]="task.title" required />
+  
+    <label for="description">Descripción</label>
+    <textarea id="description" name="description" [(ngModel)]="task.description" required></textarea>
+  
+    <label for="dueDate">Fecha de Vencimiento</label>
+    <input type="date" id="dueDate" name="dueDate" [(ngModel)]="task.dueDate" required />
+  
+    <label for="status">Estado</label>
+    <select id="status" name="status" [(ngModel)]="task.status" required>
+      <option value="new">Nuevo</option>
+      <option value="in-progress">En Progreso</option>
+      <option value="resolved">Resuelto</option>
+      <option value="closed">Cerrado</option>
+    </select>
+  
+    <button type="submit">Crear Tarea</button>
+  </form>
+  

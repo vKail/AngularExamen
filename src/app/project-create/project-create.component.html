@@ -1,0 +1,22 @@
+<!-- project-create.component.html -->
+<form (ngSubmit)="saveProject()">
+    <label for="name">Nombre del Proyecto</label>
+    <input type="text" id="name" name="name" [(ngModel)]="project.name" required />
+  
+    <label for="description">Descripción</label>
+    <textarea id="description" name="description" [(ngModel)]="project.description" required></textarea>
+  
+    <label for="dueDate">Fecha de Vencimiento</label>
+    <input type="date" id="dueDate" name="dueDate" [(ngModel)]="project.dueDate" required />
+  
+    <label for="status">Estado</label>
+    <select id="status" name="status" [(ngModel)]="project.status" required>
+      <option value="new">Nuevo</option>
+      <option value="in-progress">En Progreso</option>
+      <option value="resolved">Resuelto</option>
+      <option value="closed">Cerrado</option>
+    </select>
+  
+    <button type="submit">Crear Proyecto</button>
+  </form>
+  

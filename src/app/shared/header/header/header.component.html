@@ -1,0 +1,10 @@
+<header class="bg-blue-500 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="/" class="text-xl font-bold">Project Management App</a>
+      <div>
+        <button *ngIf="authService.isAuthenticated | async" (click)="logout()" class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </header>
